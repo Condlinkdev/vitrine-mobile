@@ -29,7 +29,7 @@ export function CardProduto({
         }
         style={styles.botao}
       >
-        <Text style={styles.estrela}>{favorito ? "★" : "■"}</Text>
+        <Text style={styles.estrela}>{favorito ? "★" : "☆"}</Text>
       </Pressable>
     </View>
   );

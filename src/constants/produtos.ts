@@ -11,7 +11,7 @@ export const PRODUTOS: Produto[] = [
     brand: "Essence",
     category: "beauty",
     thumbnail:
-      "https://cdn.dummyjson.com/products/images/beauty/1/thumbnail.png",
+      "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
     images: [],
   },
   {
@@ -25,7 +25,7 @@ export const PRODUTOS: Produto[] = [
     brand: "Glamour",
     category: "beauty",
     thumbnail:
-      "https://cdn.dummyjson.com/products/images/beauty/2/thumbnail.png",
+      "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/thumbnail.webp",
     images: [],
   },
   {
@@ -39,7 +39,7 @@ export const PRODUTOS: Produto[] = [
     brand: "Chanel",
     category: "fragrances",
     thumbnail:
-      "https://cdn.dummyjson.com/products/images/fragrances/6/thumbnail.png",
+      "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/thumbnail.webp",
     images: [],
   },
   {
@@ -53,7 +53,7 @@ export const PRODUTOS: Produto[] = [
     brand: "Annibale Colombo",
     category: "furniture",
     thumbnail:
-      "https://cdn.dummyjson.com/products/images/furniture/9/thumbnail.png",
+      "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp",
     images: [],
   },
 ];
