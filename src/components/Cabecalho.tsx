@@ -1,32 +1,37 @@
-import { StyleSheet, Text, View } from "react-native";
-import { CORES } from "@/constants/tema";
+import { Pressable, Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
+
 interface CabecalhoProps {
   titulo: string;
   favoritos: number;
 }
+
 export function Cabecalho({ titulo, favoritos }: CabecalhoProps) {
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+
   return (
-    <View style={styles.linha}>
-      <Text style={styles.titulo}>{titulo}</Text>
-      <View style={styles.selo}>
-        <Text style={styles.seloTexto}>{favoritos} favoritos</Text>
+    <View className="flex-row items-center justify-between gap-2 mb-4">
+      <Text className="flex-1 text-sky-700 dark:text-destaque text-[26px] font-bold">
+        {titulo}
+      </Text>
+
+      <View className="bg-slate-200 dark:bg-superficie rounded-full px-2.5 py-1.5">
+        <Text className="text-slate-900 dark:text-white text-xs">
+          {favoritos} favoritos
+        </Text>
       </View>
+
+      <Pressable
+        onPress={toggleColorScheme}
+        accessibilityRole="button"
+        accessibilityLabel="Alternar tema claro e escuro"
+        className="min-w-[44px] min-h-[44px] items-center justify-center
+                   active:opacity-60"
+      >
+        <Text className="text-[20px]">
+          {colorScheme === 'dark' ? '☀️' : '🌙'}
+        </Text>
+      </Pressable>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  linha: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  titulo: { color: CORES.destaque, fontSize: 26, fontWeight: "bold", flex: 1 },
-  selo: {
-    backgroundColor: CORES.superficie,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-  },
-  seloTexto: { color: CORES.texto, fontSize: 12 },
-});
