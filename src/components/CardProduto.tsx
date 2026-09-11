@@ -5,14 +5,12 @@ interface CardProdutoProps {
   produto: Produto;
   favorito: boolean;
   aoAlternarFavorito: (id: number) => void;
-  aoAbrir?: () => void;
 }
 
 export function CardProduto({
   produto,
   favorito,
   aoAlternarFavorito,
-  aoAbrir,
 }: CardProdutoProps) {
   return (
     <View className="flex-row items-center gap-3 bg-slate-100 dark:bg-superficie rounded-card p-3 mb-3">
@@ -21,12 +19,7 @@ export function CardProduto({
         className="w-16 h-16 rounded-lg bg-slate-200 dark:bg-fundo"
       />
 
-      <Pressable
-        onPress={aoAbrir}
-        className="flex-1 active:opacity-70"
-        accessibilityRole="button"
-        accessibilityLabel={`Abrir ${produto.title}`}
-      >
+      <View className="flex-1">
         <Text
           className="text-slate-900 dark:text-white text-[15px] font-semibold"
           numberOfLines={2}
@@ -39,7 +32,7 @@ export function CardProduto({
         <Text className="text-sky-700 dark:text-destaque text-[17px] mt-1.5">
           R$ {produto.price.toFixed(2)}
         </Text>
-      </Pressable>
+      </View>
 
       <Pressable
         onPress={() => aoAlternarFavorito(produto.id)}
