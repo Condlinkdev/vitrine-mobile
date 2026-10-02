@@ -19,6 +19,7 @@ export default function CatalogoScreen() {
   const [categoria, setCategoria] = useState('todas');
   const [favoritos, setFavoritos] = useState<number[]>([]);
   const [carregando] = useState(false); // no encontro 8 vira estado de verdade
+  const [atualizando, setAtualizando] = useState(false); // NOVO
 
   // Só refaz o filtro quando a categoria muda.
   const visiveis = useMemo(
@@ -43,6 +44,18 @@ export default function CatalogoScreen() {
     (id: number) => router.push(`/produto/${id}`),
     [router]
   );
+
+  // NOVO: simula uma recarga que demora pouco mais de um segundo
+  const atualizar = useCallback(async () => {
+    setAtualizando(true);
+    try {
+      // no encontro 8 isto vira uma chamada à API
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    } finally {
+      // roda com sucesso OU com erro: o indicador sempre para
+      setAtualizando(false);
+    }
+  }, []);
 
   const renderizarItem = useCallback(
     ({ item }: { item: Produto }) => (
@@ -77,6 +90,8 @@ export default function CatalogoScreen() {
       }
       ListEmptyComponent={<Vazio texto="Nenhum produto nesta categoria." />}
       ItemSeparatorComponent={Separador}
+      refreshing={atualizando}
+      onRefresh={atualizar}
       showsVerticalScrollIndicator={false}
       initialNumToRender={8}
       windowSize={10}
