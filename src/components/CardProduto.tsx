@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { Produto } from '@/types/produto';
 
@@ -5,24 +6,25 @@ interface CardProdutoProps {
   produto: Produto;
   favorito: boolean;
   aoAlternarFavorito: (id: number) => void;
-  aoAbrir?: () => void;
+  aoAbrir: (id: number) => void;
 }
 
-export function CardProduto({
+function CardProdutoBase({
   produto,
   favorito,
   aoAlternarFavorito,
   aoAbrir,
 }: CardProdutoProps) {
   return (
-    <View className="flex-row items-center gap-3 bg-slate-100 dark:bg-superficie rounded-card p-3 mb-3">
+    <View className="flex-row items-center gap-3 bg-slate-100
+                     dark:bg-superficie rounded-card p-3">
       <Image
         source={{ uri: produto.thumbnail }}
         className="w-16 h-16 rounded-lg bg-slate-200 dark:bg-fundo"
       />
 
       <Pressable
-        onPress={aoAbrir}
+        onPress={() => aoAbrir(produto.id)}
         className="flex-1 active:opacity-70"
         accessibilityRole="button"
         accessibilityLabel={`Abrir ${produto.title}`}
@@ -56,3 +58,6 @@ export function CardProduto({
     </View>
   );
 }
+
+// só redesenha quando alguma prop muda de verdade
+export const CardProduto = memo(CardProdutoBase);
