@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CardProduto } from '@/components/CardProduto';
 import { FiltroCategorias } from '@/components/FiltroCategorias';
-import { PRODUTOS } from '@/constants/produtos';
+import { PRODUTOS_TESTE } from '@/utils/gerarProdutos';
 
 const CATEGORIAS = ['todas', 'beauty', 'fragrances', 'furniture'];
 
@@ -14,8 +14,8 @@ export default function CatalogoScreen() {
 
   const visiveis =
     categoria === 'todas'
-      ? PRODUTOS
-      : PRODUTOS.filter((p) => p.category === categoria);
+      ? PRODUTOS_TESTE
+      : PRODUTOS_TESTE.filter((p) => p.category === categoria);
 
   function alternarFavorito(id: number) {
     setFavoritos((atuais) =>
@@ -33,7 +33,7 @@ export default function CatalogoScreen() {
         aoSelecionar={setCategoria}
       />
 
-      <ScrollView className="mt-4" showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 mt-4" showsVerticalScrollIndicator={false}>
         {visiveis.length === 0 ? (
           <Text className="text-slate-500 dark:text-suave text-center mt-10">
             Nenhum produto nesta categoria.
