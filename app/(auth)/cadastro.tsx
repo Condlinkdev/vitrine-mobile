@@ -4,40 +4,41 @@ import {
   Pressable,
   ScrollView,
   Text,
-  View,
 } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CampoTexto } from '@/components/CampoTexto';
-import { DadosLogin, esquemaLogin } from '@/validacao/login';
+import { DadosCadastro, esquemaCadastro } from '@/validacao/cadastro';
 
-export default function LoginScreen() {
+export default function CadastroScreen() {
   const router = useRouter();
   const {
     control,
     handleSubmit,
     setError,
+    reset,
     formState: { errors, isSubmitting },
-  } = useForm<DadosLogin>({
-    defaultValues: { usuario: '', senha: '' },
-    resolver: yupResolver(esquemaLogin),
+  } = useForm<DadosCadastro>({
+    defaultValues: { nome: '', email: '', senha: '', confirmacao: '' },
+    resolver: yupResolver(esquemaCadastro),
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });
 
-  async function aoEnviar(dados: DadosLogin) {
-    // simulação: no encontro 9, isto vira a chamada à API
+  async function aoEnviar(dados: DadosCadastro) {
+    // simulação: a API de exemplo não tem cadastro de verdade
     await new Promise((resolve) => setTimeout(resolve, 1200));
 
-    if (dados.usuario !== 'emilys' || dados.senha !== 'emilyspass') {
-      // mensagem genérica: não revele qual dos dois estava errado
-      setError('root', { message: 'Usuário ou senha incorretos.' });
+    if (dados.email === 'emily.johnson@x.dummyjson.com') {
+      // erro do servidor que pertence a um campo específico
+      setError('email', { message: 'Este e-mail já tem cadastro.' });
       return;
     }
 
-    console.log('autenticado:', dados.usuario);
-    router.replace('/');
+    console.log('cadastrado:', dados.nome, dados.email);
+    reset();
+    router.replace('/login');
   }
 
   return (
@@ -50,34 +51,30 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <Text className="text-sky-700 dark:text-destaque text-3xl font-bold mb-1">
-          Vitrine
+          Criar conta
         </Text>
         <Text className="text-slate-500 dark:text-suave text-sm mb-8">
-          Entre para ver seus favoritos.
+          Leva menos de um minuto.
         </Text>
-
-        {errors.root ? (
-          <View
-            className="bg-red-50 dark:bg-alerta/20 border border-red-600
-                       dark:border-alerta rounded-lg p-3 mb-4"
-          >
-            <Text className="text-red-700 dark:text-alerta text-sm">
-              {errors.root.message}
-            </Text>
-          </View>
-        ) : null}
 
         <CampoTexto
           control={control}
-          name="usuario"
-          rotulo="Usuário"
-          erro={errors.usuario?.message}
-          placeholder="ex.: emilys"
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoComplete="username"
+          name="nome"
+          rotulo="Nome"
+          erro={errors.nome?.message}
+          placeholder="como devemos chamar você"
+          autoComplete="name"
         />
-
+        <CampoTexto
+          control={control}
+          name="email"
+          rotulo="E-mail"
+          erro={errors.email?.message}
+          placeholder="voce@exemplo.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+        />
         <CampoTexto
           control={control}
           name="senha"
@@ -85,7 +82,14 @@ export default function LoginScreen() {
           erro={errors.senha?.message}
           placeholder="mínimo de 6 caracteres"
           secureTextEntry
-          autoComplete="password"
+        />
+        <CampoTexto
+          control={control}
+          name="confirmacao"
+          rotulo="Confirme a senha"
+          erro={errors.confirmacao?.message}
+          placeholder="a mesma senha de cima"
+          secureTextEntry
         />
 
         <Pressable
@@ -106,16 +110,16 @@ export default function LoginScreen() {
                 : 'text-white dark:text-fundo'
             }`}
           >
-            {isSubmitting ? 'Entrando...' : 'Entrar'}
+            {isSubmitting ? 'Criando conta...' : 'Criar conta'}
           </Text>
         </Pressable>
 
         <Link
-          href="/cadastro"
+          href="/login"
           replace
           className="text-sky-700 dark:text-destaque text-center mt-6"
         >
-          Ainda não tenho conta
+          Já tenho conta
         </Link>
       </ScrollView>
     </KeyboardAvoidingView>
